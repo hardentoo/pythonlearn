@@ -57,7 +57,7 @@ def canvas_update():
     for x in range(1, n):
         for y in range(1, m):
             if (a[x][y] == 1):
-                canv.create_rectangle(dw*x,dh*y,dw+dw*x,dh+dh*y,fill='orange')
+                canv.create_rectangle(dw*x,dh*y,dw+dw*x,dh+dh*y,fill='purple')
 
 
 def life_run(event):
@@ -66,13 +66,13 @@ def life_run(event):
             for j in range (2, m-1):
                 count = 0
                 count += a[i-1][j-1] + a[i-1][j] + a[i-1][j+1]
-                count += a[i][j-1]   + a[i][j]   + a[i][j+1]
+                count += a[i][j-1]   + 0         + a[i][j+1]
                 count += a[i+1][j-1] + a[i+1][j] + a[i+1][j+1]
 
-                if (count == 3):
+                if (a[i][j] == 1 and ((count == 3) or (count == 2))):
                     b[i][j] = 1
-                else:
-                    b[i][j] = 0
+                if (a[i][j] == 0 and count == 3):
+                    b[i][j] = 1
 
         flag = 0
         for i in range (1, n):
@@ -80,11 +80,15 @@ def life_run(event):
                 a[i][j] = b[i][j]
                 flag += a[i][j]
 
+        for i in range (1, n):
+            for j in range(1, m):
+                b[i][j] = 0
+
         canvas_update()
         root.update()
         time.sleep(0.2)
         if (flag == 0):
-            break
+            return
 
 
 def key(event):
