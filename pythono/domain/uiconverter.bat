@@ -1,0 +1,1 @@
+pyuic5 check.ui -o check.py
